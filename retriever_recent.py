@@ -1,4 +1,4 @@
-from video_retriever import VideoRetriever
+from retriever import VideoRetriever
 from youtubesearchpython import *
 
 class RecentUploads(VideoRetriever):
