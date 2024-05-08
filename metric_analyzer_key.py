@@ -8,7 +8,7 @@ class LibrosaKey(MetricAnalyzer):
     '''
 
     def __init__(self):
-        super().__init__()
+        self.keyMapping = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']
 
     def analyse(self, path):
         # Load the audio file
@@ -20,11 +20,8 @@ class LibrosaKey(MetricAnalyzer):
         # Calculate the mean chroma feature across time
         mean_chroma = np.mean(chromagram, axis=1)
 
-        # Define the mapping of chroma features to keys
-        chroma_to_key = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-
         # Find the key by selecting the maximum chroma feature
         estimated_key_index = np.argmax(mean_chroma)
-        estimated_key = chroma_to_key[estimated_key_index]
+        estimated_key = self.keyMapping[estimated_key_index]
 
         return estimated_key
