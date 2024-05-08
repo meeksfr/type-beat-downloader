@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
-class Downloader(metaclass=ABCMeta):
+class Video(metaclass=ABCMeta):
 
     def __init__(self):
         pass
