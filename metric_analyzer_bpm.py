@@ -11,3 +11,5 @@ class RegexBPM(MetricAnalyzer):
         matches = re.search(self.pattern, text)
         if matches:
             return matches.group(1) or matches.group(2)
+        else:
+            return None

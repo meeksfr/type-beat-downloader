@@ -9,7 +9,8 @@ class RecentUploads(VideoRetriever):
     def search(self, terms, limit=3):
         allLinks = []
         for a in terms:
-            res = self.singleSearch(self.baseQuery.replace("{x}", a), limit)
+            query = self.baseQuery.replace("{x}", a)
+            res = self.singleSearch(query, limit)
             allLinks.extend(res)
 
         self.links = allLinks
