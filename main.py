@@ -5,6 +5,20 @@ from metric_analyzer_bpm import RegexBPM
 from metric_analyzer_key import LibrosaKey
 from converter_ffmpeg import FfmpegWrapper
 from getpass import getpass
+import os
+
+#callback function for using pytube - has restricted parameters
+def postProcess(stream, filePath):
+    global converter
+    global keyProcessor
+
+    os.rename(filePath, filePath.replace(' ', '_'))
+    filePath = filePath.replace(' ','_')
+    
+    fileName = converter.convert(filePath)
+    
+    key = keyProcessor.analyse(filePath)
+    converter.rename(fileName, key)
 
 client_id = '9bf2211d3826492aa72471ec394689e1' #swap for different user
 client_secret = getpass("Spotify client secret:")
@@ -19,17 +33,14 @@ artists = spotify.getSearchTerms()
 retriever = RecentUploads()
 videoLinks = retriever.search(artists)
 
-converter = FfmpegWrapper()
 bpmProcessor = RegexBPM()
 keyProcessor = LibrosaKey()
+converter = FfmpegWrapper()
 
+x=0
 for link in videoLinks:
-    videoWrapper = PyTubeHandler(link)
-    videoPath = videoWrapper.download('defaultPath/')
-
-    if videoPath and videoWrapper.description:
-        fileName = converter.convert(videoPath)
-        bpm = bpmProcessor.analyse(videoWrapper.description)
-        key = keyProcessor.analyse(videoPath)
-
-        converter.rename(fileName, key, bpm)
+    x+=1
+    videoWrapper = PyTubeHandler(link, bpmProcessor, postProcess)
+    videoWrapper.download('defaultPath/')
+    if x == 7:
+        break

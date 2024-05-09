@@ -9,6 +9,10 @@ class FfmpegWrapper(Converter):
 
         fileWithoutExtension, ext = os.path.splitext(filePath)
 
+        print("a:", fileWithoutExtension)
+        print("b", ext)
+        print("c", filePath)
+
         command = f"ffmpeg -i {filePath} {fileWithoutExtension}.mp3"
 
         os.system(command)
@@ -16,9 +20,9 @@ class FfmpegWrapper(Converter):
 
         return fileWithoutExtension
     
-    def rename(self, fileWithoutExtension, key, bpm, ext=".mp3"):
+    def rename(self, fileWithoutExtension, key, ext=".mp3"):
 
-        dest = fileWithoutExtension + f"---{key}-{bpm}"
+        dest = fileWithoutExtension + f"_{key}"
         os.rename(fileWithoutExtension + ext, dest + ext)
 
         return True

@@ -5,27 +5,29 @@ from urllib.error import HTTPError
 
 class PyTubeHandler(VideoWrapper):
     
-    def __init__(self, link, callback):
+    def __init__(self, link, bpmProcessor, callback):
         self.video = YouTube(link, on_complete_callback=callback)
         self.length = self.video.length
         self.description = self.getDescription()
+        self.bpmProcessor = bpmProcessor
 
     def download(self, path, maxDuration=400):
         try:
             print(self.video.title)
             if self.length > maxDuration:
                 #video too long (probably not a beat)
-                return
+                return None
 
             audio_track = self.video.streams.filter(only_audio=True).first()
-            mp4_file = audio_track.download(output_path=path)
-            fileName = audio_track.default_filename
-
-            source = path + fileName
-            os.rename(source, source.replace(' ', '_'))
-            filePath = source.replace(' ','_')
-
-            return filePath
+            
+            #getting bpm here in order to work with restricted args of pytube callback function
+            bpm = self.bpmProcessor.analyse(self.description)
+            if bpm:
+                bpm = str(bpm) + "_"
+            
+            if audio_track:
+                audio_track.download(output_path=path, filename_prefix=bpm)
+                #also calls callback function
 
         except HTTPError as err:
             if err.code == 429:
