@@ -1,6 +1,6 @@
 from user_taste_spotify import SpotifyTaste
 from retriever_recent import RecentUploads
-from video_pytube_handler import Video
+from video_pytube_handler import PyTubeHandler
 from metric_analyzer_bpm import RegexBPM
 from metric_analyzer_key import LibrosaKey
 from converter_ffmpeg import FfmpegWrapper
@@ -24,13 +24,12 @@ bpmProcessor = RegexBPM()
 keyProcessor = LibrosaKey()
 
 for link in videoLinks:
-    videoWrapper = Video(link)
-    videoPath = videoWrapper.download('defaultPath')
+    videoWrapper = PyTubeHandler(link)
+    videoPath = videoWrapper.download('defaultPath/')
 
     if videoPath and videoWrapper.description:
         fileName = converter.convert(videoPath)
-        bpm = bpmProcessor(videoWrapper.description)
-        key = keyProcessor(videoPath)
+        bpm = bpmProcessor.analyse(videoWrapper.description)
+        key = keyProcessor.analyse(videoPath)
 
-        if bpm and key:
-            converter.rename(fileName, key, bpm)
+        converter.rename(fileName, key, bpm)

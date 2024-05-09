@@ -1,25 +1,15 @@
-from video import Video
+from video_wrapper import VideoWrapper
 from pytube import YouTube
 import os
 from urllib.error import HTTPError
 
-class PyTubeHandler(Video):
+class PyTubeHandler(VideoWrapper):
     
-    def __init__(self, link):
-        self.video = YouTube(link)
+    def __init__(self, link, callback):
+        self.video = YouTube(link, on_complete_callback=callback)
         self.length = self.video.length
-        self.getDescription()
+        self.description = self.getDescription()
 
-    def getDescription(self):
-        # from https://github.com/pytube/pytube/issues/1626
-        for n in range(6):
-            try:
-                description = self.video.initial_data["engagementPanels"][n]["engagementPanelSectionListRenderer"]["content"]["structuredDescriptionContentRenderer"]["items"][1]["expandableVideoDescriptionBodyRenderer"]["attributedDescriptionBodyText"]["content"]
-                self.description = description
-            except:
-                continue
-        self.description = None
-        
     def download(self, path, maxDuration=400):
         try:
             print(self.video.title)
@@ -44,3 +34,13 @@ class PyTubeHandler(Video):
             else:
                 print('http error', err)
                 return None
+
+    def getDescription(self):
+        # from https://github.com/pytube/pytube/issues/1626
+        for n in range(6):
+            try:
+                description = self.video.initial_data["engagementPanels"][n]["engagementPanelSectionListRenderer"]["content"]["structuredDescriptionContentRenderer"]["items"][1]["expandableVideoDescriptionBodyRenderer"]["attributedDescriptionBodyText"]["content"]
+                return description
+            except:
+                continue
+        return None

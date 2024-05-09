@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
-class Video(metaclass=ABCMeta):
+class VideoWrapper(metaclass=ABCMeta):
 
     def __init__(self):
         pass

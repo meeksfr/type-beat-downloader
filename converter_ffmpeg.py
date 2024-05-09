@@ -2,7 +2,7 @@ from converter import Converter
 import os
 
 class FfmpegWrapper(Converter):
-    def __init__():
+    def __init__(self):
         pass
 
     def convert(self, filePath):
