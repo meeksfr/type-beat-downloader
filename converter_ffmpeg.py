@@ -8,11 +8,7 @@ class FfmpegWrapper(Converter):
     def convert(self, filePath):
 
         fileWithoutExtension, ext = os.path.splitext(filePath)
-
-        print("a:", fileWithoutExtension)
-        print("b", ext)
-        print("c", filePath)
-
+        
         command = f"ffmpeg -i {filePath} {fileWithoutExtension}.mp3"
 
         os.system(command)

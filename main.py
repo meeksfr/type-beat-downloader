@@ -37,10 +37,7 @@ bpmProcessor = RegexBPM()
 keyProcessor = LibrosaKey()
 converter = FfmpegWrapper()
 
-x=0
 for link in videoLinks:
-    x+=1
+    
     videoWrapper = PyTubeHandler(link, bpmProcessor, postProcess)
     videoWrapper.download('defaultPath/')
-    if x == 7:
-        break
