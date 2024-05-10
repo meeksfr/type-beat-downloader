@@ -16,9 +16,11 @@ class FfmpegWrapper(Converter):
 
         return fileWithoutExtension
     
-    def rename(self, fileWithoutExtension, key, ext=".mp3"):
-
-        dest = fileWithoutExtension + f"_{key}"
-        os.rename(fileWithoutExtension + ext, dest + ext)
-
-        return True
+    def rename(self, filepath, key):
+        
+        directory, filename = os.path.split(filepath)
+        name, extension = os.path.splitext(filename)
+        
+        newName = f"{directory}/{key}_{name}{extension}"
+        
+        os.rename(filepath, newName)

@@ -10,15 +10,13 @@ import os
 #callback function for using pytube - has restricted parameters
 def postProcess(stream, filePath):
     global converter
-    global keyProcessor
+    global paths
 
     os.rename(filePath, filePath.replace(' ', '_'))
     filePath = filePath.replace(' ','_')
     
     fileName = converter.convert(filePath)
-    
-    key = keyProcessor.analyse(filePath)
-    converter.rename(fileName, key)
+    paths.append(fileName)
 
 client_id = '9bf2211d3826492aa72471ec394689e1' #swap for different user
 client_secret = getpass("Spotify client secret:")
@@ -37,7 +35,23 @@ bpmProcessor = RegexBPM()
 keyProcessor = LibrosaKey()
 converter = FfmpegWrapper()
 
+paths = []
+
+x = 0
 for link in videoLinks:
-    
-    videoWrapper = PyTubeHandler(link, bpmProcessor, postProcess)
-    videoWrapper.download('defaultPath/')
+    try:
+        videoWrapper = PyTubeHandler(link, bpmProcessor, postProcess)
+        videoWrapper.download('defaultPath/')
+        x += 1
+        if x == 12:
+          break
+    except:
+        print(f"error w {link}")
+
+for path in paths:
+    try:
+        key = keyProcessor.analyse(path + ".mp3")
+        print(key)
+        converter.rename(path, key)
+    except:
+        print(f"error on {path}")
