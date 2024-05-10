@@ -1,4 +1,4 @@
-from metric_analyzer import MetricAnalyzer
+from .metric_analyzer import MetricAnalyzer
 import numpy as np
 import librosa
 

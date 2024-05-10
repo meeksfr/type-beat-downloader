@@ -1,9 +1,9 @@
-from user_taste_spotify import SpotifyTaste
-from retriever_recent import RecentUploads
-from video_pytube_handler import PyTubeHandler
-from metric_analyzer_bpm import RegexBPM
-from metric_analyzer_key import LibrosaKey
-from converter_ffmpeg import FfmpegWrapper
+from userTaste.user_taste_spotify import SpotifyTaste
+from videoRetriever.retriever_recent import RecentUploads
+from videoWrapper.video_pytube_handler import PyTubeHandler
+from metricAnalyzer.metric_analyzer_bpm import RegexBPM
+from metricAnalyzer.metric_analyzer_key import LibrosaKey
+from converter.converter_ffmpeg import FfmpegWrapper
 from getpass import getpass
 import os
 

@@ -1,4 +1,4 @@
-from video_wrapper import VideoWrapper
+from .video_wrapper import VideoWrapper
 from pytube import YouTube
 import os
 from urllib.error import HTTPError

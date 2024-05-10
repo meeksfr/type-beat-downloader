@@ -1,4 +1,4 @@
-from user_taste import UserTaste
+from .user_taste import UserTaste
 import requests
 from urllib.parse import urlencode
 import base64

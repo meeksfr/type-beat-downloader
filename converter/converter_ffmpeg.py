@@ -1,4 +1,4 @@
-from converter import Converter
+from .converter import Converter
 import os
 
 class FfmpegWrapper(Converter):
