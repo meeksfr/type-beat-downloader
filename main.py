@@ -12,10 +12,13 @@ def postProcess(stream, filePath):
     global converter
     global paths
 
-    os.rename(filePath, filePath.replace(' ', '_'))
-    filePath = filePath.replace(' ','_')
+    spacedFilePath = filePath.replace(' ','_')
+    filteredPath = filter(lambda x: x.isalnum() or (x=="/") or (x==".") or (x=="_"), spacedFilePath)
+    parseablePath = "".join(filteredPath)
+
+    os.rename(filePath, parseablePath)
     
-    fileName = converter.convert(filePath)
+    fileName = converter.convert(parseablePath)
     paths.append(fileName)
 
 client_id = '9bf2211d3826492aa72471ec394689e1' #swap for different user
@@ -37,14 +40,10 @@ converter = FfmpegWrapper()
 
 paths = []
 
-x = 0
 for link in videoLinks:
     try:
         videoWrapper = PyTubeHandler(link, bpmProcessor, postProcess)
         videoWrapper.download('defaultPath/')
-        x += 1
-        if x == 12:
-          break
     except:
         print(f"error w {link}")
 
