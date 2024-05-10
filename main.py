@@ -50,8 +50,8 @@ for link in videoLinks:
 
 for path in paths:
     try:
-        key = keyProcessor.analyse(path + ".mp3")
-        print(key)
-        converter.rename(path, key)
+        fullPath = path + ".mp3"
+        key = keyProcessor.analyse(fullPath)
+        converter.rename(fullPath, key)
     except:
         print(f"error on {path}")
